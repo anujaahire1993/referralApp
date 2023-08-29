@@ -3,8 +3,8 @@ import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
   name: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   username: {
     type: String,
@@ -12,36 +12,44 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   password: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   email: {
-      type: String,
-      required: true,
-      unique: true
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: function (email) {
+        // Regular expression for email validation
+        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+      },
+      message: props => `${props.value} is not a valid email address!`
+    }
   },
   referralCode: {
-      type: String,
-      unique: true
+    type: String,
+    unique: true
   },
   referredBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   },
   referralStatus: {
-      type: String, // 'pending', 'approved', 'rejected'
-      default: 'pending'
+    type: String, // 'pending', 'approved', 'rejected'
+    default: 'pending'
   },
   points: {
-      type: Number,
-      default: 0
+    type: Number,
+    default: 0
   },
   role: {
     type: String,
     enum: ['inverter', 'accepter', 'admin'],
     default: 'accepter'
-}
+  }
 }, { timestamps: true });
+
 
 // Hash the password before saving
 userSchema.pre('save', async function(next) {
