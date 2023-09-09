@@ -17,15 +17,6 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: function (email) {
-        // Regular expression for email validation
-        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
-      },
-      message: props => `${props.value} is not a valid email address!`
-    }
   },
   referralCode: {
     type: String,
@@ -52,17 +43,17 @@ const userSchema = new mongoose.Schema({
 
 
 // Hash the password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   const user = this;
   if (!user.isModified('password')) return next();
 
   try {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(user.password, salt);
-      user.password = hashedPassword;
-      next();
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
+    user.password = hashedPassword;
+    next();
   } catch (error) {
-      return next(error);
+    return next(error);
   }
 });
 
