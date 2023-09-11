@@ -7,6 +7,10 @@ const templateSchema = Joi.object({
     subject: Joi.string().alphanum().required(),
     senderName: Joi.string().required(),
     senderEmail: Joi.string().email().required(),
+    personalization: Joi.object({
+        email: Joi.string().email().required(),
+        data: Joi.object().required()  // Define the structure of the 'data' object here
+    })
 });
 
 export function validateTemplate(req, res, next) {
@@ -26,6 +30,7 @@ const userSchema = Joi.object({
     name: Joi.string().required(),
     referralCode: Joi.string().required(),
     role: Joi.string().required(),
+    personalization: Joi.string(),
 });
 
 export function validateUser(req, res, next) {

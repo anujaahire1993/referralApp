@@ -1,5 +1,6 @@
 import users from '../models/User.js'
 import mailerService from '../services/mailerService.js'
+import templateService from '../services/templateService.js'
 import templateController from '../controllers/templateController.js'
 import passport from 'passport';
 import 'dotenv/config';
@@ -54,19 +55,11 @@ class usersController {
       req.params.type = "signup";
       const type = req.params.type;
       let template = {};
-      const templateResult = await templateController.getTemplate(type);
+     const templateResult = await templateService.getTemplate(type);
       console.log("templateResult", templateResult); // You can use templateResult here 
-      const personalization = [
-        {
-          email: 'anujaahire84@gmail.com',
-          data: {
-            name: 'Vimalraj Kumar',
-            account_name: 'Vimalraj Kumar',
-            support_email: 'vimalrajk89@live.com'
-          },
-        }];
+     
       const emailParams = {
-        personalization: personalization,
+        personalization: templateResult.personalization,
         recipientEmail: 'anujaahire84@gmail.com',
         recipientName: 'Anuja ahire',
         senderEmail: templateResult.senderEmail,

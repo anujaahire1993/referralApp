@@ -19,10 +19,13 @@ const templateSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    personalization: {
+        type: mongoose.Schema.Types.Mixed,
+        required: true,       
+    },
     senderEmail: {
         type: String,
-        required: true,
-       
+        required: true,       
     },
     senderName: {
         type: String,

@@ -16,7 +16,6 @@ const mailerService = {
             new Recipient(emailParam.recipientEmail, emailParam.recipientName)
         ];
 
-
         const emailParams = new EmailParams()
             .setFrom(sentFrom)
             .setTo(recipients)

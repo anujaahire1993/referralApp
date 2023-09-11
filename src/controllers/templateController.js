@@ -21,11 +21,9 @@ class templateController {
     });
   }
 
-
   static createTemplate = async (req, res) => {
     let templates = new template(req.body);
-    // const templateRes = await templates.save();
-    // console.log(templateRes);
+    
     templates.save((err) => {
       if (err) {
         res.status(500).send({ message: err.message });
@@ -34,9 +32,6 @@ class templateController {
       }
     });
   }
-
-
-
 }
 
 export default templateController
